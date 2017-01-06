@@ -21,7 +21,7 @@ public class MessageApp {
 
     public static void main(String[] args) {
 
-        // checking whether Hibernate CRUD operations are working fine:
+        // checking whether Hibernate CRUD operations are working fine
         service.deleteAll();
         Long idOne = service.create(textOne);
         Long idTwo = service.create(textTwo);
