@@ -1,4 +1,3 @@
-
 package com.jrodolfo.basichibernate.entity;
 
 import javax.persistence.*;
@@ -18,6 +17,11 @@ public class Message {
     public Message(){}
 
     public Message(String text) {
+        this.text = text;
+    }
+
+    public Message(Long id, String text) {
+        this.id = id;
         this.text = text;
     }
 

@@ -1,4 +1,3 @@
-
 package com.jrodolfo.basichibernate.util;
 
 import org.hibernate.SessionFactory;

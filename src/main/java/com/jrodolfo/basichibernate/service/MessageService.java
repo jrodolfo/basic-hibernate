@@ -1,6 +1,9 @@
 package com.jrodolfo.basichibernate.service;
 
 import com.jrodolfo.basichibernate.dao.MessageDao;
+import com.jrodolfo.basichibernate.entity.Message;
+
+import java.util.List;
 
 /**
  * Created by Rod Oliveira (jrodolfo.com) on 2017-01-06.
@@ -11,6 +14,10 @@ public class MessageService {
 
     public Long create(String text) {
         return messageDao.createMessage(text);
+    }
+
+    public void saveMessages(List<Message> messageList) {
+        messageDao.saveMessages(messageList);
     }
 
     public void update(long id, String text) {
