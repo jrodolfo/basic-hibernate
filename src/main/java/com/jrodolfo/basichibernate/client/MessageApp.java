@@ -21,14 +21,14 @@ public class MessageApp {
 
     public static void main(String[] args) {
 
-        // Just checking whether Hibernate CRUD operations are working fine:
+        // checking whether Hibernate CRUD operations are working fine:
         service.deleteAll();
         Long idOne = service.create(textOne);
         Long idTwo = service.create(textTwo);
         service.update(idTwo, textThree);
         service.delete(idOne);
 
-        // We want to create a situation where we get NonUniqueObjectException
+        // trying to get NonUniqueObjectException
         final int option = 4;
         try {
             generateNonUniqueObjectException(option);
@@ -68,7 +68,7 @@ public class MessageApp {
 
             case 3: // Option 3: we have two objects which have the same identifier (same primary key) but
                     // they are NOT the same object, and we will try to save them at the same time (i.e. same session)
-                    // That does NOT (???) throw NonUniqueObjectException.
+                    // That does NOT throw NonUniqueObjectException.
                 idOne = service.create(textOne);
                 messageOne = service.get(idOne);
                 messageTwo = service.get(idOne);
@@ -80,7 +80,7 @@ public class MessageApp {
 
             case 4: // Option 4: we have two objects which have the same identifier (same primary key) and
                 // they are the same object, and we will try to save them at the same time (i.e. same session)
-                // That does NOT (???) throw NonUniqueObjectException.
+                // That does NOT throw NonUniqueObjectException.
                 idOne = service.create(textOne);
                 messageOne = service.get(idOne);
                 messageList = new ArrayList<Message>();
@@ -88,7 +88,6 @@ public class MessageApp {
                 messageList.add(messageOne);
                 service.save(messageList);
                 break;
-
         }
     }
 }

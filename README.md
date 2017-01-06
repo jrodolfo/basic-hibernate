@@ -1,6 +1,6 @@
 # Basic Hibernate
 
-Simple project with create, read, update, and delete.
+Simple project with create, read, update, and delete operations
 
 ## Pre-requisites, configurations, and how to run it
 
