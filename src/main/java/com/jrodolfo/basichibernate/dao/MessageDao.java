@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class MessageDao {
 
-    public static void deleteMessages() {
+    public void deleteMessages() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction txn = session.getTransaction();
         try {
@@ -37,7 +37,7 @@ public class MessageDao {
         }
     }
 
-    public static Long createMessage(String text) {
+    public Long createMessage(String text) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Message message = new Message(text);
@@ -48,7 +48,7 @@ public class MessageDao {
         return id;
     }
 
-    public static void updateMessage(long id, String text) {
+    public void updateMessage(long id, String text) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction txn = session.getTransaction();
         try {
@@ -70,7 +70,7 @@ public class MessageDao {
         }
     }
 
-    public static void deleteMessage(long id) {
+    public void deleteMessage(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction txn = session.getTransaction();
         try {
