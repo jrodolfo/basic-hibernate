@@ -18,4 +18,4 @@ git clone https://github.com/jrodolfo/basic-hibernate
 
 5) Update username and password on file hibernate.cfg.xml
 
-6) Run HibernateClient.main()
+6) Run MessageApp.main()

@@ -1,4 +1,4 @@
-package com.jrodolfo.basichibernate.client;
+package com.jrodolfo.basichibernate.dao;
 
 import com.jrodolfo.basichibernate.entity.Message;
 import com.jrodolfo.basichibernate.util.HibernateUtil;
@@ -8,23 +8,11 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 /**
- * Created by Rod Oliveira (jrodolfo.com) on 2017-01-05.
+ * Created by Rod Oliveira (jrodolfo.com) on 2017-01-06.
  */
-public class HibernateClient {
+public class MessageDao {
 
-    static final String textOne = "text 1";
-    static final String textTwo = "text 2";
-    static final String textThree = "text 3";
-
-    public static void main(String[] args) {
-        deleteMessages();
-        Long idOne = createMessage(textOne);
-        Long idTwo = createMessage(textTwo);
-        updateMessage(idTwo, textThree);
-        deleteMessage(idOne);
-    }
-
-    private static void deleteMessages() {
+    public static void deleteMessages() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction txn = session.getTransaction();
         try {
@@ -49,7 +37,7 @@ public class HibernateClient {
         }
     }
 
-    private static Long createMessage(String text) {
+    public static Long createMessage(String text) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Message message = new Message(text);
@@ -60,7 +48,7 @@ public class HibernateClient {
         return id;
     }
 
-    private static void updateMessage(long id, String text) {
+    public static void updateMessage(long id, String text) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction txn = session.getTransaction();
         try {
@@ -82,7 +70,7 @@ public class HibernateClient {
         }
     }
 
-    private static void deleteMessage(long id) {
+    public static void deleteMessage(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction txn = session.getTransaction();
         try {
