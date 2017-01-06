@@ -53,10 +53,10 @@ public class MessageApp {
 
         switch (option) {
 
-            case 1 :  // Option 1: Artificially creating an org.hibernate.NonUniqueObjectException exception. That does throw NonUniqueObjectException.
+            case 1:  // Option 1: Artificially creating an org.hibernate.NonUniqueObjectException exception. That does throw NonUniqueObjectException.
                 throw new NonUniqueObjectException(new Serializable(){}, "Artificially creating an org.hibernate.NonUniqueObjectException exception.");
 
-            case 2 :  // Option 2: we create two Message objects with the same id. That does NOT throw NonUniqueObjectException.
+            case 2:  // Option 2: we create two Message objects with the same id. That does NOT throw NonUniqueObjectException.
                 final Long commonId = 100L;
                 messageOne = new Message(commonId, textOne);
                 messageTwo = new Message(commonId, textTwo);
@@ -79,8 +79,8 @@ public class MessageApp {
                 break;
 
             case 4: // Option 4: we have two objects which have the same identifier (same primary key) and
-                // they are the same object, and we will try to save them at the same time (i.e. same session)
-                // That does NOT throw NonUniqueObjectException.
+                    // they are the same object, and we will try to save them at the same time (i.e. same session)
+                    // That does NOT throw NonUniqueObjectException.
                 idOne = service.create(textOne);
                 messageOne = service.get(idOne);
                 messageList = new ArrayList<Message>();
