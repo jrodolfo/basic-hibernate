@@ -12,11 +12,15 @@ public class MessageService {
 
     MessageDao messageDao = new MessageDao();
 
+    public Message get(Long id) {
+        return messageDao.getMessage(id);
+    }
+
     public Long create(String text) {
         return messageDao.createMessage(text);
     }
 
-    public void saveMessages(List<Message> messageList) {
+    public void save(List<Message> messageList) {
         messageDao.saveMessages(messageList);
     }
 

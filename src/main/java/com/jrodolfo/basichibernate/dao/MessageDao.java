@@ -12,6 +12,11 @@ import java.util.List;
  */
 public class MessageDao {
 
+    public Message getMessage(long id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        return (Message) session.get(Message.class, id);
+    }
+
     public Long createMessage(String text) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
