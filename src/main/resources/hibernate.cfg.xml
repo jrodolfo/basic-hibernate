@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!-- Created by Rod Oliveira (jrodolfo.com) on 2017-01-05. -->
+<hibernate-configuration>
+    <session-factory>
+        <!-- database settings -->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/basic_hibernate</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">password</property>
+        <!-- sql dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <!-- print sql to stdout -->
+        <property name="show_sql">true</property>
+        <!-- use annotation based mapping -->
+        <mapping class="com.jrodolfo.basichibernate.entity.Message"/>
+    </session-factory>
+</hibernate-configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
