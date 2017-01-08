@@ -14,27 +14,33 @@ import java.util.List;
  */
 public class MessageApp {
 
-    static final String textOne = "text 1";
-    static final String textTwo = "text 2";
-    static final String textThree = "text 3";
+    static final String text_01 = "text 1";
+    static final String text_02 = "text 2";
+    static final String text_03 = "text 3";
     static final MessageService service = new MessageService();
 
     public static void main(String[] args) {
 
         // checking whether Hibernate CRUD operations are working fine
         service.deleteAll();
-        Long idOne = service.create(textOne);
-        Long idTwo = service.create(textTwo);
-        service.update(idTwo, textThree);
-        service.delete(idOne);
+        Long id_01 = service.create(text_01);
+        Long id_02 = service.create(text_02);
+        service.update(id_02, text_03);
+        service.delete(id_01);
 
+        getNonUniqueObjectException();
+    }
+
+    private static void getNonUniqueObjectException() {
         // trying to get NonUniqueObjectException
-        final int option = 4;
-        try {
-            generateNonUniqueObjectException(option);
-        } catch (NonUniqueObjectException e) {
-            System.out.println("Catching a NonUniqueObjectException.");
-            e.printStackTrace();
+        final int maxNumOfCases = 4;
+        for (int i = 1; i <= maxNumOfCases; i++) {
+            try {
+                createNonUniqueObjectException(i);
+            } catch (NonUniqueObjectException e) {
+                System.out.println("Option " + i);
+                e.printStackTrace();
+            }
         }
     }
 
@@ -44,7 +50,7 @@ public class MessageApp {
      * This method create a scenario to show this happening.
      * @throws NonUniqueObjectException
      */
-    public static void generateNonUniqueObjectException(int option) throws NonUniqueObjectException {
+    public static void createNonUniqueObjectException(int option) throws NonUniqueObjectException {
 
         final Message messageOne;
         final Message messageTwo;
@@ -58,8 +64,8 @@ public class MessageApp {
 
             case 2:  // Option 2: we create two Message objects with the same id. That does NOT throw NonUniqueObjectException.
                 final Long commonId = 100L;
-                messageOne = new Message(commonId, textOne);
-                messageTwo = new Message(commonId, textTwo);
+                messageOne = new Message(commonId, text_01);
+                messageTwo = new Message(commonId, text_02);
                 messageList = new ArrayList<Message>();
                 messageList.add(messageOne);
                 messageList.add(messageTwo);
@@ -69,7 +75,7 @@ public class MessageApp {
             case 3: // Option 3: we have two objects which have the same identifier (same primary key) but
                     // they are NOT the same object, and we will try to save them at the same time (i.e. same session)
                     // That does NOT throw NonUniqueObjectException.
-                idOne = service.create(textOne);
+                idOne = service.create(text_01);
                 messageOne = service.get(idOne);
                 messageTwo = service.get(idOne);
                 messageList = new ArrayList<Message>();
@@ -81,7 +87,7 @@ public class MessageApp {
             case 4: // Option 4: we have two objects which have the same identifier (same primary key) and
                     // they are the same object, and we will try to save them at the same time (i.e. same session)
                     // That does NOT throw NonUniqueObjectException.
-                idOne = service.create(textOne);
+                idOne = service.create(text_01);
                 messageOne = service.get(idOne);
                 messageList = new ArrayList<Message>();
                 messageList.add(messageOne);
