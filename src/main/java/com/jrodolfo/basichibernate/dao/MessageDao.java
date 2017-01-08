@@ -17,6 +17,10 @@ public class MessageDao {
         return (Message) session.get(Message.class, id);
     }
 
+    public List<Message> getAllMessages() {
+        return HibernateUtil.getSessionFactory().openSession().createCriteria(Message.class).list();
+    }
+
     public Long createMessage(String text) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();

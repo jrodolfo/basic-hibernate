@@ -16,6 +16,10 @@ public class MessageService {
         return messageDao.getMessage(id);
     }
 
+    public List<Message> getAll() {
+        return messageDao.getAllMessages();
+    }
+
     public Long create(String text) {
         return messageDao.createMessage(text);
     }
