@@ -22,14 +22,12 @@ public class MessageApp {
     static final MessageService service = new MessageService();
 
     public static void main(String[] args) {
-
         // checking whether Hibernate CRUD operations are working fine
         service.deleteAll();
         Long id_01 = service.create(text_01);
         Long id_02 = service.create(text_02);
         service.update(id_02, text_03);
         service.delete(id_01);
-
         // generating exception
         getNonUniqueObjectException();
     }

@@ -5,17 +5,15 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Created by Rod Oliveira (jrodolfo.com) on 2017-01-05
+ * Created by Rod Oliveira (jrodolfo.com) on 2017-01-08
  */
-public class AppTest
-    extends TestCase
-{
+public class MessageAppTest  extends TestCase {
     /**
      * create test case
      *
      * @param testName name of the test case
      */
-    public AppTest(String testName)
+    public MessageAppTest(String testName)
     {
         super(testName);
     }
@@ -25,7 +23,7 @@ public class AppTest
      */
     public static Test suite()
     {
-        return new TestSuite(AppTest.class);
+        return new TestSuite(MessageAppTest.class);
     }
 
     /**
