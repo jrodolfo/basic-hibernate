@@ -8,9 +8,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.jrodolfo.basichibernate.util.MathUtil.getRandonLong;
+
 
 /**
- * Created by Rod Oliveira (jrodolfo.com) on 2017-01-05.
+ * Created by Rod Oliveira (jrodolfo.com) on 2017-01-05
  */
 public class MessageApp {
 
@@ -28,6 +30,7 @@ public class MessageApp {
         service.update(id_02, text_03);
         service.delete(id_01);
 
+        // generating exception
         getNonUniqueObjectException();
     }
 
@@ -38,7 +41,7 @@ public class MessageApp {
             try {
                 createNonUniqueObjectException(i);
             } catch (NonUniqueObjectException e) {
-                System.out.println("Option " + i);
+                System.out.println("Case #" + i);
                 e.printStackTrace();
             }
         }
@@ -50,48 +53,54 @@ public class MessageApp {
      * This method create a scenario to show this happening.
      * @throws NonUniqueObjectException
      */
-    public static void createNonUniqueObjectException(int option) throws NonUniqueObjectException {
+    public static void createNonUniqueObjectException(int caseNumber) throws NonUniqueObjectException {
 
-        final Message messageOne;
-        final Message messageTwo;
+        final Message message_01;
+        final Message message_02;
         final List<Message> messageList;
-        final Long idOne;
+        final Long id_01;
 
-        switch (option) {
+        switch (caseNumber) {
 
-            case 1:  // Option 1: Artificially creating an org.hibernate.NonUniqueObjectException exception. That does throw NonUniqueObjectException.
+            case 1:
+                // Case 1: artificially create an org.hibernate.NonUniqueObjectException exception.
+                // That does throw NonUniqueObjectException.
                 throw new NonUniqueObjectException(new Serializable(){}, "Artificially creating an org.hibernate.NonUniqueObjectException exception.");
 
-            case 2:  // Option 2: we create two Message objects with the same id. That does NOT throw NonUniqueObjectException.
-                final Long commonId = 100L;
-                messageOne = new Message(commonId, text_01);
-                messageTwo = new Message(commonId, text_02);
-                messageList = new ArrayList<Message>();
-                messageList.add(messageOne);
-                messageList.add(messageTwo);
+            case 2:
+                // Case 2: create two Message objects with the same id.
+                // That does NOT throw NonUniqueObjectException.
+                final Long commonId = getRandonLong(1_000_000, 2_000_000);
+                message_01 = new Message(commonId, text_01);
+                message_02 = new Message(commonId, text_02);
+                messageList = new ArrayList<>();
+                messageList.add(message_01);
+                messageList.add(message_02);
                 service.save(messageList);
                 break;
 
-            case 3: // Option 3: we have two objects which have the same identifier (same primary key) but
-                    // they are NOT the same object, and we will try to save them at the same time (i.e. same session)
-                    // That does NOT throw NonUniqueObjectException.
-                idOne = service.create(text_01);
-                messageOne = service.get(idOne);
-                messageTwo = service.get(idOne);
-                messageList = new ArrayList<Message>();
-                messageList.add(messageOne);
-                messageList.add(messageTwo);
+            case 3:
+                // Case 3: we have two objects which have the same identifier (same primary key) but
+                // they are NOT the same object, and we will try to save them at the same time (i.e. same session)
+                // That does NOT throw NonUniqueObjectException.
+                id_01 = service.create(text_01);
+                message_01 = service.get(id_01);
+                message_02 = service.get(id_01);
+                messageList = new ArrayList<>();
+                messageList.add(message_01);
+                messageList.add(message_02);
                 service.save(messageList);
                 break;
 
-            case 4: // Option 4: we have two objects which have the same identifier (same primary key) and
-                    // they are the same object, and we will try to save them at the same time (i.e. same session)
-                    // That does NOT throw NonUniqueObjectException.
-                idOne = service.create(text_01);
-                messageOne = service.get(idOne);
-                messageList = new ArrayList<Message>();
-                messageList.add(messageOne);
-                messageList.add(messageOne);
+            case 4:
+                // Case 4: we have two objects which have the same identifier (same primary key) and
+                // they are the same object, and we will try to save them at the same time (i.e. same session)
+                // That does NOT throw NonUniqueObjectException.
+                id_01 = service.create(text_01);
+                message_01 = service.get(id_01);
+                messageList = new ArrayList<>();
+                messageList.add(message_01);
+                messageList.add(message_01);
                 service.save(messageList);
                 break;
         }

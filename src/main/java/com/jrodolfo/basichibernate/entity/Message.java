@@ -3,7 +3,7 @@ package com.jrodolfo.basichibernate.entity;
 import javax.persistence.*;
 
 /**
- * Created by Rod Oliveira (jrodolfo.com) on 2017-01-05.
+ * Created by Rod Oliveira (jrodolfo.com) on 2017-01-05
  */
 @Entity @Table(name = "message")
 public class Message {

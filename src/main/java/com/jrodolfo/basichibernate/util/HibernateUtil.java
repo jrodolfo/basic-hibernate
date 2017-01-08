@@ -6,7 +6,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 /**
- * Created by Rod Oliveira (jrodolfo.com) on 2017-01-05.
+ * Created by Rod Oliveira (jrodolfo.com) on 2017-01-05
  */
 public class HibernateUtil {
 

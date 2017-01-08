@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 /**
- * Created by Rod Oliveira (jrodolfo.com) on 2017-01-06.
+ * Created by Rod Oliveira (jrodolfo.com) on 2017-01-06
  */
 public class MessageDao {
 

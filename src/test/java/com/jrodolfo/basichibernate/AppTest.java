@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Created by Rod Oliveira (jrodolfo.com) on 2017-01-05.
+ * Created by Rod Oliveira (jrodolfo.com) on 2017-01-05
  */
 public class AppTest
     extends TestCase

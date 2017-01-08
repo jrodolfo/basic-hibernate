@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
-<!-- Created by Rod Oliveira (jrodolfo.com) on 2017-01-05. -->
+<!-- Created by Rod Oliveira (jrodolfo.com) on 2017-01-05 -->
 <hibernate-configuration>
     <session-factory>
         <!-- database settings -->
