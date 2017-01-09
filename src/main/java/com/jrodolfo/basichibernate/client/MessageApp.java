@@ -41,7 +41,7 @@ public class MessageApp {
             try {
                 createNonUniqueObjectException(i);
             } catch (NonUniqueObjectException e) {
-                System.out.println("Case " + i);
+                System.out.println("\tFailed on Case " + i);
                 e.printStackTrace();
             }
         }

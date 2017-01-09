@@ -12,6 +12,6 @@ git clone https://github.com/jrodolfo/basic-hibernate
 
 2) Run sql script db/create-db.sql
 
-3) Update username and password on file hibernate.cfg.xml
+3) Update username and password in file hibernate.cfg.xml
 
 4) Run MessageApp.main()
