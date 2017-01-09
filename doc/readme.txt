@@ -1,4 +1,4 @@
-From book:
+These images are from the book:
 
 	Java Persistence with Hibernate
 	by Christian Bauer and Gavin King
