@@ -41,7 +41,7 @@ public class MessageApp {
             try {
                 createNonUniqueObjectException(i);
             } catch (NonUniqueObjectException e) {
-                System.out.println("\tFailed on Case " + i);
+                System.out.println("\t****** Failed on Case " + i + " ******");
                 e.printStackTrace();
             }
         }
@@ -66,12 +66,12 @@ public class MessageApp {
 
             case 1:
                 // Case 1: artificially create an org.hibernate.NonUniqueObjectException exception.
-                // RESULT: That does throw NonUniqueObjectException.
+                // RESULT: That DOES throw NonUniqueObjectException.
                 throw new NonUniqueObjectException(new Serializable(){}, "Artificially creating an org.hibernate.NonUniqueObjectException exception.");
 
             case 2:
                 // Case 2: create two Message objects with the same id.
-                // RESULT: That does NOT throw NonUniqueObjectException.
+                // RESULT: That DOES NOT throw NonUniqueObjectException.
                 final Long commonId = getRandonLong(1_000_000, 2_000_000);
                 message_01 = new Message(commonId, text_01);
                 message_02 = new Message(commonId, text_02);
@@ -84,7 +84,7 @@ public class MessageApp {
             case 3:
                 // Case 3: we have two objects which have the same identifier (same primary key) but
                 // they are NOT the same object, and we will try to save them at the same time (i.e. same session)
-                // RESULT: That does NOT throw NonUniqueObjectException.
+                // RESULT: That DOES NOT throw NonUniqueObjectException.
                 message_01 = service.create(text_01);
                 message_02 = service.get(message_01.getId());
                 messageList = new ArrayList<>();
@@ -96,7 +96,7 @@ public class MessageApp {
             case 4:
                 // Case 4: we have two objects which have the same identifier (same primary key) and
                 // they are the same object, and we will try to save them at the same time (i.e. same session)
-                // RESULT: That does NOT throw NonUniqueObjectException.
+                // RESULT: That DOES NOT throw NonUniqueObjectException.
                 message_01 = service.create(text_01);
                 messageList = new ArrayList<>();
                 messageList.add(message_01);
@@ -107,7 +107,7 @@ public class MessageApp {
             case 5:
                 // Case 5: retrieve all rows. Change the id of element 2,
                 // so that it is the same as of element 1. Persist all rows.
-                // RESULT: That does NOT throw NonUniqueObjectException.
+                // RESULT: That DOES NOT throw NonUniqueObjectException.
                 messageList = service.getAll();
                 message_01 = messageList.get(1);
                 id_01 = message_01.getId();
@@ -117,8 +117,10 @@ public class MessageApp {
                 break;
 
             case 6:
-                // Case 6: From book "Java Persistence with Hibernate",
-                // by Christian Bauer and Gavin King; Manning Publications:
+                // Case 6: Based on a case described on book
+                //     "Java Persistence with Hibernate"
+                //     by Christian Bauer and Gavin King;
+                //     Manning Publications
                 // Merging of a detached object is an alternative approach.
                 // It can be complementary to or can replace reattachment.
                 // Merging was first introduced in Hibernate to deal with a
@@ -136,14 +138,13 @@ public class MessageApp {
                 tx.commit();
                 session.close();
                 */
-                // RESULT: That does NOT throw NonUniqueObjectException.
+                // RESULT: That DOES throw NonUniqueObjectException.
                 message_01 = service.create(text_01);
-                message_01.setText(text_03);
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 session.beginTransaction();
                 message_02 = (Message) session.get(Message.class, message_01.getId());
                 message_02.setText(text_02);
-                session.update(message_02); // Throws exception!  (actually, it does NOT throw exception)
+                session.update(message_01); // Throws exception!
                 session.getTransaction().commit();
                 session.close();
         }
