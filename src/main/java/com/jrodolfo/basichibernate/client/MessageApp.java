@@ -118,7 +118,7 @@ public class MessageApp {
 
             case 6:
                 // Case 6: From book "Java Persistence with Hibernate",
-                //  by Christian Bauer and Gavin King; Manning Publications:
+                // by Christian Bauer and Gavin King; Manning Publications:
                 // Merging of a detached object is an alternative approach.
                 // It can be complementary to or can replace reattachment.
                 // Merging was first introduced in Hibernate to deal with a
