@@ -71,14 +71,21 @@
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <version>1.0.0.Final</version>
         </dependency>
-        <!-- hibernate core 3 -->
+        <!-- hibernate core 3.2 -->
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate -->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate</artifactId>-->
+            <!--<version>3.2.6.ga</version>-->
+        <!--</dependency>-->
+        <!-- hibernate core 3.6 -->
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>3.6.10.Final</version>
         </dependency>
-        <!-- hibernate core 4 -->
+        <!-- hibernate core 4.3 -->
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.hibernate/hibernate-core &ndash;&gt;-->
         <!--<dependency>-->
         <!--<groupId>org.hibernate</groupId>-->
