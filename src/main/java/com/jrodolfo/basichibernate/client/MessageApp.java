@@ -2,7 +2,9 @@ package com.jrodolfo.basichibernate.client;
 
 import com.jrodolfo.basichibernate.entity.Message;
 import com.jrodolfo.basichibernate.service.MessageService;
+import com.jrodolfo.basichibernate.util.HibernateUtil;
 import org.hibernate.NonUniqueObjectException;
+import org.hibernate.Session;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,22 +26,22 @@ public class MessageApp {
     public static void main(String[] args) {
         // checking whether Hibernate CRUD operations are working fine
         service.deleteAll();
-        Long id_01 = service.create(text_01);
-        Long id_02 = service.create(text_02);
-        service.update(id_02, text_03);
-        service.delete(id_01);
+        Message message_01 = service.create(text_01);
+        Message message_02 = service.create(text_02);
+        service.update(message_02.getId(), text_03);
+        service.delete(message_01.getId());
         // generating exception
         getNonUniqueObjectException();
     }
 
     private static void getNonUniqueObjectException() {
         // trying to get NonUniqueObjectException
-        final int maxNumOfCases = 5;
+        final int maxNumOfCases = 6;
         for (int i = 1; i <= maxNumOfCases; i++) {
             try {
                 createNonUniqueObjectException(i);
             } catch (NonUniqueObjectException e) {
-                System.out.println("Case #" + i);
+                System.out.println("Case " + i);
                 e.printStackTrace();
             }
         }
@@ -57,6 +59,8 @@ public class MessageApp {
         final Message message_02;
         final List<Message> messageList;
         final Long id_01;
+
+        System.out.println("\n\tRunning Case " + caseNumber + "\n");
 
         switch (caseNumber) {
 
@@ -81,9 +85,8 @@ public class MessageApp {
                 // Case 3: we have two objects which have the same identifier (same primary key) but
                 // they are NOT the same object, and we will try to save them at the same time (i.e. same session)
                 // RESULT: That does NOT throw NonUniqueObjectException.
-                id_01 = service.create(text_01);
-                message_01 = service.get(id_01);
-                message_02 = service.get(id_01);
+                message_01 = service.create(text_01);
+                message_02 = service.get(message_01.getId());
                 messageList = new ArrayList<>();
                 messageList.add(message_01);
                 messageList.add(message_02);
@@ -94,8 +97,7 @@ public class MessageApp {
                 // Case 4: we have two objects which have the same identifier (same primary key) and
                 // they are the same object, and we will try to save them at the same time (i.e. same session)
                 // RESULT: That does NOT throw NonUniqueObjectException.
-                id_01 = service.create(text_01);
-                message_01 = service.get(id_01);
+                message_01 = service.create(text_01);
                 messageList = new ArrayList<>();
                 messageList.add(message_01);
                 messageList.add(message_01);
@@ -113,6 +115,37 @@ public class MessageApp {
                 message_02.setId(id_01);
                 service.save(messageList);
                 break;
+
+            case 6:
+                // Case 6: From book "Java Persistence with Hibernate",
+                //  by Christian Bauer and Gavin King; Manning Publications:
+                // Merging of a detached object is an alternative approach.
+                // It can be complementary to or can replace reattachment.
+                // Merging was first introduced in Hibernate to deal with a
+                // particular case where reattachment was no longer
+                // sufficient (the old name for the merge() method in
+                // Hibernate 2.x was saveOrUpdateCopy()). Look at the
+                // following code, which tries to reattach a detached object:
+                /*
+                item.getId(); // The database identity is "1234"
+                item.setDescription();
+                Session session = sessionFactory.openSession();
+                Transaction tx = session.beginTransaction();
+                Item item2 = (Item) session.get(Item.class, new Long(1234));
+                session.update(item); // Throws exception!
+                tx.commit();
+                session.close();
+                */
+                // RESULT: That does NOT throw NonUniqueObjectException.
+                message_01 = service.create(text_01);
+                message_01.setText(text_03);
+                Session session = HibernateUtil.getSessionFactory().openSession();
+                session.beginTransaction();
+                message_02 = (Message) session.get(Message.class, message_01.getId());
+                message_02.setText(text_02);
+                session.update(message_02); // Throws exception!  (actually, it does NOT throw exception)
+                session.getTransaction().commit();
+                session.close();
         }
     }
 }

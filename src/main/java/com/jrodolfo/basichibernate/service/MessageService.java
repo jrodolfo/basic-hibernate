@@ -20,8 +20,8 @@ public class MessageService {
         return messageDao.getAllMessages();
     }
 
-    public Long create(String text) {
-        return messageDao.createMessage(text);
+    public Message create(String text) {
+        return messageDao.saveMessage(text);
     }
 
     public void save(List<Message> messageList) {

@@ -21,15 +21,15 @@ public class MessageDao {
         return HibernateUtil.getSessionFactory().openSession().createCriteria(Message.class).list();
     }
 
-    public Long createMessage(String text) {
+    public Message saveMessage(String text) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Message message = new Message(text);
         Long id = (Long) session.save(message);
         session.getTransaction().commit();
-        System.out.println("\n\tcreateMessage(): " + message + "\n");
+        System.out.println("\n\tsaveMessage(): " + message + "\n");
         session.close();
-        return id;
+        return message;
     }
 
     public void saveMessages(List<Message> messageList) {
