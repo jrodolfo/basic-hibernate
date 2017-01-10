@@ -12,7 +12,7 @@ import java.util.List;
 import static com.jrodolfo.basichibernate.util.MathUtil.getRandonLong;
 
 /**
- * Created by roliveir on 2017-01-10.
+ * Created by Rod Oliveira (jrodolfo.com) on 2017-01-10
  */
 public class ExceptionUtil {
 
