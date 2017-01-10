@@ -98,11 +98,17 @@ public class ExceptionUtil {
                 // so that it is the same as of element 1. Persist all rows.
                 // RESULT: Case 5 does NOT throw NonUniqueObjectException.
                 messageList = service.getAll();
-                message_01 = messageList.get(1);
-                id_01 = message_01.getId();
-                message_02 = messageList.get(2);
-                message_02.setId(id_01);
-                service.save(messageList);
+                if (messageList.size() > 1) {
+                    message_01 = messageList.get(1);
+                    id_01 = message_01.getId();
+                    message_02 = messageList.get(2);
+                    message_02.setId(id_01);
+                    service.save(messageList);
+                } else {
+                    System.out.println("\tCase 5: now able to run this case " +
+                            "because we need to retrieve at least two rows in the table.");
+                }
+
                 break;
 
             case 6:
