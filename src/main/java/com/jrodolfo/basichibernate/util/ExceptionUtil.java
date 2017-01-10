@@ -19,11 +19,12 @@ public class ExceptionUtil {
 
     static final String text_01 = "text 1";
     static final String text_02 = "text 2";
+    static final String text_03 = "text 3";
     static final MessageService service = new MessageService();
 
     public static void getNonUniqueObjectException() {
         // trying to get NonUniqueObjectException
-        final int maxNumOfCases = 6;
+        final int maxNumOfCases = 7;
         for (int i = 1; i <= maxNumOfCases; i++) {
             try {
                 createNonUniqueObjectException(i);
@@ -135,6 +136,23 @@ public class ExceptionUtil {
                 session.update(message_01); // Throws exception!
                 session.getTransaction().commit();
                 session.close();
+                break;
+
+            case 7:
+                // Case 7: similar to Case 6
+                // RESULT: Case 7 does NOT throw NonUniqueObjectException.
+                message_01 = service.create(text_01);
+                message_02 = service.get(message_01.getId());
+                message_02.setText(text_02);
+                if (message_01 == message_02) {
+                    System.out.println("\tCase 7: message_01 and message_02 are identical");
+                } else {
+                    System.out.println("\tCase 7: message_01 and message_02 are NOT identical");
+                }
+                System.out.println("\tmessage_01: " + message_01);
+                System.out.println("\tmessage_02: " + message_02);
+                service.update(message_01.getId(), text_03);
+                break;
         }
     }
 }
