@@ -16,13 +16,27 @@ public class MessageApp {
     static final MessageService service = new MessageService();
 
     public static void main(String[] args) {
-        // run some basic Hibernate CRUD operations
-        service.deleteAll();
+
+        // Basic CRUD (create, retrieve, update, delete) operations:
+
+        // create
         Message message_01 = service.create(text_01);
+        Long id_01 = message_01.getId();
         Message message_02 = service.create(text_02);
-        service.update(message_02.getId(), text_03);
-        service.delete(message_01.getId());
-        // generate exception
+        Long id_02 = message_02.getId();
+
+        // retrieve
+        Message message_03 = service.get(id_01);
+        System.out.println("Message retrieved: " + message_03);
+
+        // update
+        service.update(id_02, text_03);
+
+        // delete
+        service.delete(id_01);
+        service.deleteAll();
+
+        // Get exception:
         getNonUniqueObjectException();
     }
 }
