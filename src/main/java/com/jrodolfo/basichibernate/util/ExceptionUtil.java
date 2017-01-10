@@ -12,6 +12,7 @@ import java.util.List;
 import static com.jrodolfo.basichibernate.util.MathUtil.getRandonLong;
 
 /**
+ * Class to create some Hibernate common exceptions
  * Created by Rod Oliveira (jrodolfo.com) on 2017-01-10
  */
 public class ExceptionUtil {

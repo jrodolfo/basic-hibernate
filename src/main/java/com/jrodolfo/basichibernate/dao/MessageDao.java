@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 /**
+ * DAO Class to access the database
  * Created by Rod Oliveira (jrodolfo.com) on 2017-01-06
  */
 public class MessageDao {

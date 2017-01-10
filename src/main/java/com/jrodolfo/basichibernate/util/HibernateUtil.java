@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 /**
+ * Class to create Hibernate session
  * Created by Rod Oliveira (jrodolfo.com) on 2017-01-05
  */
 public class HibernateUtil {

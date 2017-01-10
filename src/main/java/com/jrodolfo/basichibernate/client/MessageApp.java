@@ -4,8 +4,8 @@ import com.jrodolfo.basichibernate.entity.Message;
 import com.jrodolfo.basichibernate.service.MessageService;
 import static com.jrodolfo.basichibernate.util.ExceptionUtil.getNonUniqueObjectException;
 
-
 /**
+ * Main class of this app
  * Created by Rod Oliveira (jrodolfo.com) on 2017-01-05
  */
 public class MessageApp {

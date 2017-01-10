@@ -6,6 +6,7 @@ import com.jrodolfo.basichibernate.entity.Message;
 import java.util.List;
 
 /**
+ * Class that provides service for Message and uses MessageDAO
  * Created by Rod Oliveira (jrodolfo.com) on 2017-01-06
  */
 public class MessageService {
@@ -31,6 +32,7 @@ public class MessageService {
     public void update(long id, String text) {
         messageDao.updateMessage(id, text);
     }
+
     public void deleteAll() {
         messageDao.deleteMessages();
     }

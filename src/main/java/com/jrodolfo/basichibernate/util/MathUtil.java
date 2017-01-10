@@ -3,6 +3,7 @@ package com.jrodolfo.basichibernate.util;
 import java.util.Random;
 
 /**
+ * Class for math utilities
  * Created by Rod Oliveira (jrodolfo.com) on 2017-01-08
  */
 public class MathUtil {
