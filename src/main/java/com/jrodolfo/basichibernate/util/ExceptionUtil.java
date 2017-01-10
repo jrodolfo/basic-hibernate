@@ -143,12 +143,14 @@ public class ExceptionUtil {
                 // RESULT: Case 7 does NOT throw NonUniqueObjectException.
                 message_01 = service.create(text_01);
                 message_02 = service.get(message_01.getId());
-                message_02.setText(text_02);
+                System.out.println("\tmessage_01: " + message_01);
+                System.out.println("\tmessage_02: " + message_02);
                 if (message_01 == message_02) {
-                    System.out.println("\tCase 7: message_01 and message_02 are identical");
+                    System.out.println("\tmessage_01 and message_02 are identical");
                 } else {
-                    System.out.println("\tCase 7: message_01 and message_02 are NOT identical");
+                    System.out.println("\tmessage_01 and message_02 are NOT identical");
                 }
+                message_02.setText(text_02);
                 System.out.println("\tmessage_01: " + message_01);
                 System.out.println("\tmessage_02: " + message_02);
                 service.update(message_01.getId(), text_03);
