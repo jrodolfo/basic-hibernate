@@ -13,46 +13,46 @@ import java.util.List;
  */
 public class MessageDao {
 
-    public Message getMessage(long id) {
+    public Message get(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (Message) session.get(Message.class, id);
     }
 
-    public List<Message> getAllMessages() {
+    public List<Message> getAll() {
         return HibernateUtil.getSessionFactory().openSession().createCriteria(Message.class).list();
     }
 
-    public Message saveMessage(String text) {
+    public Message create(String text) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Message message = new Message(text);
         Long id = (Long) session.save(message);
         session.getTransaction().commit();
-        System.out.println("\n\tsaveMessage(): " + message + "\n");
+        System.out.println("\n\tsave(): " + message + "\n");
         session.close();
         return message;
     }
 
-    public void saveMessages(List<Message> messageList) {
+    public void save(List<Message> messageList) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         for (Message message : messageList) {
-            System.out.println("\n\tsaveMessages(): " + message + "\n");
+            System.out.println("\n\tsave(): " + message + "\n");
             session.save(message);
         }
         session.getTransaction().commit();
         session.close();
     }
 
-    public void updateMessage(long id, String text) {
+    public void update(long id, String text) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction txn = session.getTransaction();
         try {
             txn.begin();
             Message message = (Message) session.get(Message.class, id);
-            System.out.println("\n\tupdateMessage() - before change: " + message);
+            System.out.println("\n\tupdate() - before change: " + message);
             message.setText(text);
-            System.out.println("\n\tupdateMessage() - after change: " + message + "\n");
+            System.out.println("\n\tupdate() - after change: " + message + "\n");
             txn.commit();
         } catch (Exception e) {
             if (txn != null) {
@@ -66,14 +66,14 @@ public class MessageDao {
         }
     }
 
-    public void updateMessage(Message message) {
+    public void update(Message message) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction txn = session.getTransaction();
         try {
             txn.begin();
-            System.out.println("\n\tupdateMessage() - before change: " + message);
+            System.out.println("\n\tupdate() - before change: " + message);
             session.update(message);
-            System.out.println("\n\tupdateMessage() - after change: " + message + "\n");
+            System.out.println("\n\tupdate() - after change: " + message + "\n");
             txn.commit();
         } catch (Exception e) {
             if (txn != null) {
@@ -87,14 +87,14 @@ public class MessageDao {
         }
     }
 
-    public void deleteMessage(long id) {
+    public void delete(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction txn = session.getTransaction();
         try {
             txn.begin();
             Message message = (Message) session.get(Message.class, id);
             if (message != null) {
-                System.out.println("\n\tdeleteMessage(): " + message + "\n");
+                System.out.println("\n\tdelete(): " + message + "\n");
                 session.delete(message);
             }
             txn.commit();
@@ -110,7 +110,7 @@ public class MessageDao {
         }
     }
 
-    public void deleteMessages() {
+    public void deleteAll() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction txn = session.getTransaction();
         try {
@@ -119,7 +119,7 @@ public class MessageDao {
             Message message;
             for (Object obj : listOfMessages) {
                 message = (Message) obj;
-                System.out.println("\n\tdeleteMessages() - deleting message: " + message + "\n");
+                System.out.println("\n\tdeleteAll() - deleting message: " + message + "\n");
                 session.delete(obj);
             }
             txn.commit();

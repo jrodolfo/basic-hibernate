@@ -14,34 +14,34 @@ public class MessageService {
     MessageDao messageDao = new MessageDao();
 
     public Message get(Long id) {
-        return messageDao.getMessage(id);
+        return messageDao.get(id);
     }
 
     public List<Message> getAll() {
-        return messageDao.getAllMessages();
+        return messageDao.getAll();
     }
 
     public Message create(String text) {
-        return messageDao.saveMessage(text);
+        return messageDao.create(text);
     }
 
     public void save(List<Message> messageList) {
-        messageDao.saveMessages(messageList);
+        messageDao.save(messageList);
     }
 
     public void update(long id, String text) {
-        messageDao.updateMessage(id, text);
+        messageDao.update(id, text);
     }
 
     public void update(Message message) {
-        messageDao.updateMessage(message);
+        messageDao.update(message);
     }
 
     public void deleteAll() {
-        messageDao.deleteMessages();
+        messageDao.deleteAll();
     }
 
     public void delete(long id) {
-        messageDao.deleteMessage(id);
+        messageDao.delete(id);
     }
 }
