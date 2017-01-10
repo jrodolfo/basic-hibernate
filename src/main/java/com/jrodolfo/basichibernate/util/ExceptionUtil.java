@@ -53,12 +53,13 @@ public class ExceptionUtil {
 
             case 1:
                 // Case 1: artificially create an org.hibernate.NonUniqueObjectException exception.
-                // RESULT: That DOES throw NonUniqueObjectException.
-                throw new NonUniqueObjectException(new Serializable(){}, "Artificially creating an org.hibernate.NonUniqueObjectException exception.");
+                // RESULT: Case 1 throws NonUniqueObjectException.
+                throw new NonUniqueObjectException(new Serializable(){}, "Artificially creating an " +
+                        "org.hibernate.NonUniqueObjectException exception.");
 
             case 2:
                 // Case 2: create two Message objects with the same id.
-                // RESULT: That DOES NOT throw NonUniqueObjectException.
+                // RESULT: Case 2 does NOT throw NonUniqueObjectException
                 final Long commonId = getRandonLong(1_000_000, 2_000_000);
                 message_01 = new Message(commonId, text_01);
                 message_02 = new Message(commonId, text_02);
@@ -71,7 +72,7 @@ public class ExceptionUtil {
             case 3:
                 // Case 3: we have two objects which have the same identifier (same primary key) but
                 // they are NOT the same object, and we will try to save them at the same time (i.e. same session)
-                // RESULT: That DOES NOT throw NonUniqueObjectException.
+                // RESULT:  Case 3 does NOT throw NonUniqueObjectException.
                 message_01 = service.create(text_01);
                 message_02 = service.get(message_01.getId());
                 messageList = new ArrayList<>();
@@ -83,7 +84,7 @@ public class ExceptionUtil {
             case 4:
                 // Case 4: we have two objects which have the same identifier (same primary key) and
                 // they are the same object, and we will try to save them at the same time (i.e. same session)
-                // RESULT: That DOES NOT throw NonUniqueObjectException.
+                // RESULT: Case 4 does NOT throw NonUniqueObjectException.
                 message_01 = service.create(text_01);
                 messageList = new ArrayList<>();
                 messageList.add(message_01);
@@ -94,7 +95,7 @@ public class ExceptionUtil {
             case 5:
                 // Case 5: retrieve all rows. Change the id of element 2,
                 // so that it is the same as of element 1. Persist all rows.
-                // RESULT: That DOES NOT throw NonUniqueObjectException.
+                // RESULT: Case 5 does NOT throw NonUniqueObjectException.
                 messageList = service.getAll();
                 message_01 = messageList.get(1);
                 id_01 = message_01.getId();
@@ -125,7 +126,7 @@ public class ExceptionUtil {
                 tx.commit();
                 session.close();
                 */
-                // RESULT: That DOES throw NonUniqueObjectException.
+                // RESULT: Case 6 throws NonUniqueObjectException.
                 message_01 = service.create(text_01);
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 session.beginTransaction();
