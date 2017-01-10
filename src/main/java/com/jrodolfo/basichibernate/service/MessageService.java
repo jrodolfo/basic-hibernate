@@ -33,6 +33,10 @@ public class MessageService {
         messageDao.updateMessage(id, text);
     }
 
+    public void update(Message message) {
+        messageDao.updateMessage(message);
+    }
+
     public void deleteAll() {
         messageDao.deleteMessages();
     }

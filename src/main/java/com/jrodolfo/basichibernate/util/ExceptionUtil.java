@@ -24,7 +24,7 @@ public class ExceptionUtil {
 
     public static void getNonUniqueObjectException() {
         // trying to get NonUniqueObjectException
-        final int maxNumOfCases = 7;
+        final int maxNumOfCases = 8;
         for (int i = 1; i <= maxNumOfCases; i++) {
             try {
                 createNonUniqueObjectException(i);
@@ -155,6 +155,27 @@ public class ExceptionUtil {
                 System.out.println("\tmessage_02: " + message_02);
                 service.update(message_01.getId(), text_03);
                 break;
+
+            case 8:
+                // Case 8: similar to Case 6
+                // RESULT: Case 8 does NOT throw NonUniqueObjectException.
+                message_01 = service.create(text_01);
+                message_02 = service.get(message_01.getId());
+                System.out.println("\tmessage_01: " + message_01);
+                System.out.println("\tmessage_02: " + message_02);
+                if (message_01 == message_02) {
+                    System.out.println("\tmessage_01 and message_02 are identical");
+                } else {
+                    System.out.println("\tmessage_01 and message_02 are NOT identical");
+                }
+                message_02.setText(text_02);
+                System.out.println("\tmessage_01: " + message_01);
+                System.out.println("\tmessage_02: " + message_02);
+                service.update(message_02);
+                break;
+
+            default:
+                System.out.println("\tThis case is not coded.");
         }
     }
 }

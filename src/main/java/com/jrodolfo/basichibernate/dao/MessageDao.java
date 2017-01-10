@@ -66,6 +66,27 @@ public class MessageDao {
         }
     }
 
+    public void updateMessage(Message message) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction txn = session.getTransaction();
+        try {
+            txn.begin();
+            System.out.println("\n\tupdateMessage() - before change: " + message);
+            session.update(message);
+            System.out.println("\n\tupdateMessage() - after change: " + message + "\n");
+            txn.commit();
+        } catch (Exception e) {
+            if (txn != null) {
+                txn.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
     public void deleteMessage(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction txn = session.getTransaction();
