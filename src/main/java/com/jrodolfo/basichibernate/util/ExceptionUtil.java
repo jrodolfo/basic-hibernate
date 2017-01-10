@@ -175,7 +175,7 @@ public class ExceptionUtil {
                 break;
 
             default:
-                System.out.println("\tThis case is not coded.");
+                System.out.println("\tCase " + caseNumber + " was not implemented.");
         }
     }
 }
