@@ -113,26 +113,44 @@ public class ExceptionUtil {
 
             case 6:
                 // Case 6: Based on a case described on book
-                //     "Java Persistence with Hibernate"
-                //     by Christian Bauer and Gavin King;
+                //
+                //     Java Persistence with Hibernate
+                //     by Christian Bauer and Gavin King
                 //     Manning Publications
-                // Merging of a detached object is an alternative approach.
+                //
+                // "Merging of a detached object is an alternative approach.
                 // It can be complementary to or can replace reattachment.
                 // Merging was first introduced in Hibernate to deal with a
                 // particular case where reattachment was no longer
                 // sufficient (the old name for the merge() method in
                 // Hibernate 2.x was saveOrUpdateCopy()). Look at the
                 // following code, which tries to reattach a detached object:
-                /*
-                item.getId(); // The database identity is "1234"
-                item.setDescription();
-                Session session = sessionFactory.openSession();
-                Transaction tx = session.beginTransaction();
-                Item item2 = (Item) session.get(Item.class, new Long(1234));
-                session.update(item); // Throws exception!
-                tx.commit();
-                session.close();
-                */
+                //
+                //     item.getId(); // The database identity is "1234"
+                //     item.setDescription(...);
+                //     Session session = sessionFactory.openSession();
+                //     Transaction tx = session.beginTransaction();
+                //     Item item2 = (Item) session.get(Item.class, new Long(1234));
+                //     session.update(item); // Throws exception!
+                //     tx.commit();
+                //     session.close();
+                //
+                // Given is a detached item object with the database identity 1234. After modifying
+                // it, you try to reattach it to a new Session. However, before reattachment, another
+                // instance that represents the same database row has already been loaded into the
+                // persistence context of that Session. Obviously, the reattachment through
+                // update() clashes with this already persistent instance, and a NonUniqueObjectException
+                // is thrown. The error message of the exception is A persistent instance with
+                // the same database identifier is already associated with the Session! Hibernate can’t decide
+                // which object represents the current state.
+                //
+                // You can resolve this situation by reattaching the item first; then, because the
+                // object is in persistent state, the retrieval of item2 is unnecessary. This is straightforward
+                // in a simple piece of code such as the example, but it may be impossible to
+                // refactor in a more sophisticated application. After all, a client sent the detached
+                // object to the persistence layer to have it managed, and the client may not (and
+                // shouldn’t) be aware of the managed instances already in the persistence context."
+                //
                 // RESULT: Case 6 throws NonUniqueObjectException.
                 message_01 = service.create(text_01);
                 Session session = HibernateUtil.getSessionFactory().openSession();
