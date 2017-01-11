@@ -149,7 +149,7 @@ public class ExceptionUtil {
                 // in a simple piece of code such as the example, but it may be impossible to
                 // refactor in a more sophisticated application. After all, a client sent the detached
                 // object to the persistence layer to have it managed, and the client may not (and
-                // shouldn’t) be aware of the managed instances already in the persistence context."
+                // should not) be aware of the managed instances already in the persistence context."
                 //
                 // RESULT: Case 6 throws NonUniqueObjectException.
                 message_01 = service.create(text_01);
