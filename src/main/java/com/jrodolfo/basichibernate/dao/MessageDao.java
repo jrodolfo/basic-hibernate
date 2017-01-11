@@ -28,7 +28,7 @@ public class MessageDao {
         Message message = new Message(text);
         Long id = (Long) session.save(message);
         session.getTransaction().commit();
-        System.out.println("\n\tsave(): " + message + "\n");
+        System.out.println("\n\tcreate(): " + message + "\n");
         session.close();
         return message;
     }
