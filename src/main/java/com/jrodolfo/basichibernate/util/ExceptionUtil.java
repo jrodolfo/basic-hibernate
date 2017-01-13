@@ -38,7 +38,7 @@ public class ExceptionUtil {
     /**
      * We cannot have two instances referring to the same database column in one hibernate session.
      * When that happens, the exception org.hibernate.NonUniqueObjectException is thrown.
-     * This method create a scenario to show this happening.
+     * This method create a scenario to show this happening. Look to cases 1 and 6.
      * @throws NonUniqueObjectException
      */
     private static void createNonUniqueObjectException(int caseNumber) throws NonUniqueObjectException {
@@ -161,9 +161,9 @@ public class ExceptionUtil {
                 session.beginTransaction();
                 message_02 = (Message) session.get(Message.class, message_01.getId());
 
-                compare(message_01, message_02);
+                compare(message_01, message_02); // up to this point, both object are identical
                 message_02.setText(text_02);
-                compare(message_01, message_02);
+                compare(message_01, message_02); // now they are NOT, i.e. a new message_02 was created behind the scene
 
                 session.update(message_01); // Throws exception!
                 session.getTransaction().commit();
