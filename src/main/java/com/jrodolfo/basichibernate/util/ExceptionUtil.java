@@ -29,7 +29,7 @@ public class ExceptionUtil {
             try {
                 createNonUniqueObjectException(i);
             } catch (NonUniqueObjectException e) {
-                System.out.println("\t****** Failed on Case " + i + " ******");
+                System.out.println("\n\n\t****** Failed on Case " + i + " ******\n\n");
                 e.printStackTrace();
             }
         }
@@ -206,7 +206,7 @@ public class ExceptionUtil {
         System.out.println("Checking if the following objects are identical:");
         System.out.println("\tmessage_01: " + message_01);
         System.out.println("\tmessage_02: " + message_02);
-        boolean areIdentical = message_01 == message_02;
+        boolean areIdentical = (message_01 == message_02);
         if (areIdentical) {
             System.out.println("\tmessage_01 and message_02 are identical");
         } else {

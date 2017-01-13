@@ -29,10 +29,11 @@ public class Message {
     @Override
     public String toString() {
         String defaultToString = super.toString();
+        String moreInfo = "identityHashCode=" + Integer.toHexString(System.identityHashCode(this));
         return "Message{" +
                 "id=" + id +
                 ", text='" + text + '\'' +
-                "} " + defaultToString;
+                "} " + defaultToString + " " + moreInfo;
     }
 
     @Override
