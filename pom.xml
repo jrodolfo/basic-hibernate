@@ -83,19 +83,19 @@
 
         <!-- hibernate core 3.6 -->
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>3.6.10.Final</version>
-        </dependency>
-
-        <!-- hibernate core 4.3 -->
-        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <!--<dependency>-->
             <!--<groupId>org.hibernate</groupId>-->
             <!--<artifactId>hibernate-core</artifactId>-->
-            <!--<version>4.3.5.Final</version>-->
+            <!--<version>3.6.10.Final</version>-->
         <!--</dependency>-->
+
+        <!-- hibernate core 4.3 -->
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>4.3.5.Final</version>
+        </dependency>
 
 
         <!-- https://mvnrepository.com/artifact/org.jboss/jandex -->

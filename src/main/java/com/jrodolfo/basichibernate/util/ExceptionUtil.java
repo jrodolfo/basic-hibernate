@@ -161,7 +161,7 @@ public class ExceptionUtil {
                 session.beginTransaction();
                 message_02 = (Message) session.get(Message.class, message_01.getId());
 
-                // Up to this point, both object are identical and equal:
+                // Up to this point, both objects are identical and equal:
                 compare(message_01, message_02);
                 message_02.setText(text_02);
                 // Now they are NOT identical and NOT equal, i.e. a new message_02
@@ -206,7 +206,7 @@ public class ExceptionUtil {
     }
 
     private static boolean checkIdentity(Message message_01, Message message_02) {
-        System.out.println("\n");
+        System.out.println("Checking if the following objects are identical:");
         System.out.println("\tmessage_01: " + message_01);
         System.out.println("\tmessage_02: " + message_02);
         boolean areIdentical = message_01.equals(message_02);
@@ -219,7 +219,7 @@ public class ExceptionUtil {
     }
 
     private static boolean checkEquality(Message message_01, Message message_02) {
-        System.out.println("\n");
+        System.out.println("Checking if the following objects are equal:");
         System.out.println("\tmessage_01: " + message_01);
         System.out.println("\tmessage_02: " + message_02);
         boolean areEqual = message_01.equals(message_02);
