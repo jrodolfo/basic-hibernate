@@ -161,11 +161,8 @@ public class ExceptionUtil {
                 session.beginTransaction();
                 message_02 = (Message) session.get(Message.class, message_01.getId());
 
-                // Up to this point, both objects are identical and equal:
                 compare(message_01, message_02);
                 message_02.setText(text_02);
-                // Now they are NOT identical and NOT equal, i.e. a new message_02
-                // was created by Hibernate, behind the scene:
                 compare(message_01, message_02);
 
                 session.update(message_01); // Throws exception!
@@ -209,7 +206,7 @@ public class ExceptionUtil {
         System.out.println("Checking if the following objects are identical:");
         System.out.println("\tmessage_01: " + message_01);
         System.out.println("\tmessage_02: " + message_02);
-        boolean areIdentical = message_01.equals(message_02);
+        boolean areIdentical = message_01 == message_02;
         if (areIdentical) {
             System.out.println("\tmessage_01 and message_02 are identical");
         } else {
