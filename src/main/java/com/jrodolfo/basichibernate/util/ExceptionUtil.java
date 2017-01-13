@@ -116,7 +116,7 @@ public class ExceptionUtil {
                 break;
 
             case 6:
-                // Case 6: Based on a case described on book
+                // Case 6: Based on a case described in this book:
                 //
                 //     Java Persistence with Hibernate
                 //     by Christian Bauer and Gavin King
