@@ -28,10 +28,29 @@ public class Message {
 
     @Override
     public String toString() {
+        String defaultToString = super.toString();
         return "Message{" +
                 "id=" + id +
                 ", text='" + text + '\'' +
-                '}';
+                "} " + defaultToString;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Message)) return false;
+
+        Message message = (Message) o;
+
+        if (!getId().equals(message.getId())) return false;
+        return getText().equals(message.getText());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getText().hashCode();
+        return result;
     }
 
     public Long getId() {
