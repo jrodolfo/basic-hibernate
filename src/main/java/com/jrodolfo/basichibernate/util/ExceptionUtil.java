@@ -161,9 +161,12 @@ public class ExceptionUtil {
                 session.beginTransaction();
                 message_02 = (Message) session.get(Message.class, message_01.getId());
 
-                compare(message_01, message_02); // up to this point, both object are identical
+                // Up to this point, both object are identical and equal:
+                compare(message_01, message_02);
                 message_02.setText(text_02);
-                compare(message_01, message_02); // now they are NOT, i.e. a new message_02 was created behind the scene
+                // Now they are NOT identical and NOT equal, i.e. a new message_02
+                // was created by Hibernate, behind the scene:
+                compare(message_01, message_02);
 
                 session.update(message_01); // Throws exception!
                 session.getTransaction().commit();
