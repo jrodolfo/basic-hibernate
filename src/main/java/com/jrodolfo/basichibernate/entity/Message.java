@@ -37,12 +37,10 @@ public class Message {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Message)) return false;
-
-        Message message = (Message) o;
-
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (!(that instanceof Message)) return false;
+        Message message = (Message) that;
         if (!getId().equals(message.getId())) return false;
         return getText().equals(message.getText());
     }
