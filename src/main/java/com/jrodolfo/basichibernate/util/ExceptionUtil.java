@@ -157,6 +157,7 @@ public class ExceptionUtil {
                 //
                 // RESULT: Case 6 throws NonUniqueObjectException.
                 message_01 = service.create(text_01);
+
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 session.beginTransaction();
                 message_02 = (Message) session.get(Message.class, message_01.getId());
@@ -168,6 +169,17 @@ public class ExceptionUtil {
                 session.update(message_01); // Throws exception!
                 session.getTransaction().commit();
                 session.close();
+                // The problem here is: message_01 was in detached hibernate state (its persistent
+                // hibernate state lasted only during the hibernate session that create it, which was
+                // closed at the end). Then we have message_02 that points to the same row in the table
+                // as message_01. The object message_02 is in persistent hibernate state. We change one
+                // field of message_02 and then we try to update message_01, and this sequence throws
+                // NonUniqueObjectException. If we have both object being kept in a Set, then we should
+                // always implement equals() for the class Message (which is part of the contract for
+                // using Java Collections). Otherwise, if we don't implement the equals() and then
+                // we ended up trying to update all objects from this Set and if they are equal,
+                // we will have this exception. More info can be found here:
+                // https://docs.jboss.org/hibernate/stable/core.old/reference/en/html/persistent-classes-equalshashcode.html
                 break;
 
             case 7:
