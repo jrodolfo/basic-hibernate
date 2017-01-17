@@ -52,6 +52,37 @@ public class Message {
         return result;
     }
 
+    public void compare(Message that) {
+        checkIdentity(that);
+        checkEquality(that);
+    }
+
+    public boolean checkIdentity(Message that) {
+        System.out.println("Checking if the following objects are identical:");
+        System.out.println("\tMessage 1: " + this);
+        System.out.println("\tMessage 2: " + that);
+        boolean areIdentical = (this == that);
+        if (areIdentical) {
+            System.out.println("\tMessage 1 and Message 2 are identical");
+        } else {
+            System.out.println("\tMessage 1 and Message 2 are NOT identical");
+        }
+        return areIdentical;
+    }
+
+    public boolean checkEquality(Message that) {
+        System.out.println("Checking if the following objects are equal:");
+        System.out.println("\tMessage 1: " + this);
+        System.out.println("\tMessage 2: " + that);
+        boolean areEqual = this.equals(that);
+        if (areEqual) {
+            System.out.println("\tMessage 1 and Message 2 are equal");
+        } else {
+            System.out.println("\tMessage 1 and Message 2 are NOT equal");
+        }
+        return areEqual;
+    }
+
     public Long getId() {
         return id;
     }

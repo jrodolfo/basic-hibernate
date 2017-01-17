@@ -67,7 +67,7 @@ public class ExceptionUtil {
                 messageList = new ArrayList<>();
                 messageList.add(message_01);
                 messageList.add(message_02);
-                compare(message_01, message_02);
+                message_01.compare(message_02);
                 service.save(messageList);
                 break;
 
@@ -80,7 +80,7 @@ public class ExceptionUtil {
                 messageList = new ArrayList<>();
                 messageList.add(message_01);
                 messageList.add(message_02);
-                compare(message_01, message_02);
+                message_01.compare(message_02);
                 service.save(messageList);
                 break;
 
@@ -92,7 +92,7 @@ public class ExceptionUtil {
                 messageList = new ArrayList<>();
                 messageList.add(message_01);
                 messageList.add(message_01);
-                compare(message_01, message_01);
+                message_01.compare(message_01);
                 service.save(messageList);
                 break;
 
@@ -106,7 +106,7 @@ public class ExceptionUtil {
                     id_01 = message_01.getId();
                     message_02 = messageList.get(2);
                     message_02.setId(id_01);
-                    compare(message_01, message_02);
+                    message_01.compare(message_02);
                     service.save(messageList);
                 } else {
                     System.out.println("\tCase 5: now able to run this case " +
@@ -162,9 +162,9 @@ public class ExceptionUtil {
                 session.beginTransaction();
                 message_02 = (Message) session.get(Message.class, message_01.getId());
 
-                compare(message_01, message_02);
+                message_01.compare(message_02);
                 message_02.setText(text_02);
-                compare(message_01, message_02);
+                message_01.compare(message_02);
 
                 session.update(message_01); // Throws exception!
                 session.getTransaction().commit();
@@ -187,9 +187,9 @@ public class ExceptionUtil {
                 // RESULT: Case 7 does NOT throw NonUniqueObjectException.
                 message_01 = service.create(text_01);
                 message_02 = service.get(message_01.getId());
-                compare(message_01, message_02);
+                message_01.compare(message_02);
                 message_02.setText(text_02);
-                compare(message_01, message_02);
+                message_01.compare(message_02);
                 service.update(message_01.getId(), text_03);
                 break;
 
@@ -198,9 +198,9 @@ public class ExceptionUtil {
                 // RESULT: Case 8 does NOT throw NonUniqueObjectException.
                 message_01 = service.create(text_01);
                 message_02 = service.get(message_01.getId());
-                checkIdentity(message_01, message_02);
+                message_01.compare(message_02);
                 message_02.setText(text_02);
-                compare(message_01, message_02);
+                message_01.compare(message_02);
                 service.update(message_02);
                 break;
 
@@ -209,35 +209,6 @@ public class ExceptionUtil {
         }
     }
 
-    private static void compare(Message message_01, Message message_02) {
-        checkIdentity(message_01, message_02);
-        checkEquality(message_01, message_02);
-    }
 
-    private static boolean checkIdentity(Message message_01, Message message_02) {
-        System.out.println("Checking if the following objects are identical:");
-        System.out.println("\tmessage_01: " + message_01);
-        System.out.println("\tmessage_02: " + message_02);
-        boolean areIdentical = (message_01 == message_02);
-        if (areIdentical) {
-            System.out.println("\tmessage_01 and message_02 are identical");
-        } else {
-            System.out.println("\tmessage_01 and message_02 are NOT identical");
-        }
-        return areIdentical;
-    }
-
-    private static boolean checkEquality(Message message_01, Message message_02) {
-        System.out.println("Checking if the following objects are equal:");
-        System.out.println("\tmessage_01: " + message_01);
-        System.out.println("\tmessage_02: " + message_02);
-        boolean areEqual = message_01.equals(message_02);
-        if (areEqual) {
-            System.out.println("\tmessage_01 and message_02 are equal");
-        } else {
-            System.out.println("\tmessage_01 and message_02 are NOT equal");
-        }
-        return areEqual;
-    }
 
 }
