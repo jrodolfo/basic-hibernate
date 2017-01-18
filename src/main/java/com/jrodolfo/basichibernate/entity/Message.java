@@ -1,6 +1,12 @@
 package com.jrodolfo.basichibernate.entity;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.*;
+import java.lang.invoke.MethodHandles;
+
 
 /**
  * Main entity of this app
@@ -8,6 +14,9 @@ import javax.persistence.*;
  */
 @Entity @Table(name = "message")
 public class Message {
+
+    @Transient
+    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name="id")
     private Long id;
@@ -58,27 +67,23 @@ public class Message {
     }
 
     public boolean checkIdentity(Message that) {
-        System.out.println("Checking if the following objects are identical:");
-        System.out.println("\tMessage 1: " + this);
-        System.out.println("\tMessage 2: " + that);
+        logger.debug("\nChecking if the following objects are identical:\n" + this + '\n' + that);
         boolean areIdentical = (this == that);
         if (areIdentical) {
-            System.out.println("\tMessage 1 and Message 2 are identical");
+            logger.debug("They are identical.");
         } else {
-            System.out.println("\tMessage 1 and Message 2 are NOT identical");
+            logger.debug("They are NOT identical.");
         }
         return areIdentical;
     }
 
     public boolean checkEquality(Message that) {
-        System.out.println("Checking if the following objects are equal:");
-        System.out.println("\tMessage 1: " + this);
-        System.out.println("\tMessage 2: " + that);
+        logger.debug("\nChecking if the following objects are equal:\n" + this + '\n' + that);
         boolean areEqual = this.equals(that);
         if (areEqual) {
-            System.out.println("\tMessage 1 and Message 2 are equal");
+            logger.debug("They are equal.");
         } else {
-            System.out.println("\tMessage 1 and Message 2 are NOT equal");
+            logger.debug("They are NOT equal.");
         }
         return areEqual;
     }

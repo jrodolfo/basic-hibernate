@@ -4,6 +4,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.invoke.MethodHandles;
 
 /**
  * Class to create Hibernate session
@@ -11,7 +15,8 @@ import org.hibernate.cfg.Configuration;
  */
 public class HibernateUtil {
 
-    private static final SessionFactory sessionFactory = buildSessionFactory();
+    private final static SessionFactory sessionFactory = buildSessionFactory();
+    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     // hibernate 4
     private static SessionFactory buildSessionFactory() {

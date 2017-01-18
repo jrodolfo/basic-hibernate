@@ -4,12 +4,15 @@ import com.jrodolfo.basichibernate.entity.Message;
 import com.jrodolfo.basichibernate.service.MessageService;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.jrodolfo.basichibernate.util.MathUtil.getRandonLong;
+import static com.jrodolfo.basichibernate.util.MathUtil.getRandomLong;
 
 /**
  * Class to create some Hibernate common exceptions
@@ -17,19 +20,19 @@ import static com.jrodolfo.basichibernate.util.MathUtil.getRandonLong;
  */
 public class ExceptionUtil {
 
-    static final String text_01 = "text 1";
-    static final String text_02 = "text 2";
-    static final String text_03 = "text 3";
-    static final MessageService service = new MessageService();
+    private final static MessageService service = new MessageService();
+    private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private final static String textOne = "text 1";
+    private final static String textTwo = "text 2";
+    private final static String textThree = "text 3";
 
     public static void getNonUniqueObjectException() {
-        // trying to get NonUniqueObjectException
         final int maxNumOfCases = 8;
         for (int i = 1; i <= maxNumOfCases; i++) {
             try {
                 createNonUniqueObjectException(i);
             } catch (NonUniqueObjectException e) {
-                System.out.println("\n\n\t****** Failed on Case " + i + " ******\n\n");
+                logger.debug("\n\n\t****** Failed on Case " + i + " ******\n\n");
                 e.printStackTrace();
             }
         }
@@ -43,12 +46,11 @@ public class ExceptionUtil {
      */
     private static void createNonUniqueObjectException(int caseNumber) throws NonUniqueObjectException {
 
-        final Message message_01;
-        final Message message_02;
+        final Message messageOne;
+        final Message messageTwo;
         final List<Message> messageList;
-        final Long id_01;
-
-        System.out.println("\n\t====== Running Case " + caseNumber + " ======\n");
+        final Long idOne;
+        logger.debug("\n\t====== Running Case " + caseNumber + " ======\n");
 
         switch (caseNumber) {
 
@@ -61,13 +63,13 @@ public class ExceptionUtil {
             case 2:
                 // Case 2: create two Message objects with the same id.
                 // RESULT: Case 2 does NOT throw NonUniqueObjectException
-                final Long commonId = getRandonLong(1_000_000, 2_000_000);
-                message_01 = new Message(commonId, text_01);
-                message_02 = new Message(commonId, text_02);
+                final Long commonId = getRandomLong(1_000_000, 2_000_000);
+                messageOne = new Message(commonId, textOne);
+                messageTwo = new Message(commonId, textTwo);
                 messageList = new ArrayList<>();
-                messageList.add(message_01);
-                messageList.add(message_02);
-                message_01.compare(message_02);
+                messageList.add(messageOne);
+                messageList.add(messageTwo);
+                messageOne.compare(messageTwo);
                 service.save(messageList);
                 break;
 
@@ -75,12 +77,12 @@ public class ExceptionUtil {
                 // Case 3: we have two objects which have the same identifier (same primary key) but
                 // they are NOT the same object, and we will try to save them at the same time (i.e. same session)
                 // RESULT:  Case 3 does NOT throw NonUniqueObjectException.
-                message_01 = service.create(text_01);
-                message_02 = service.get(message_01.getId());
+                messageOne = service.create(textOne);
+                messageTwo = service.get(messageOne.getId());
                 messageList = new ArrayList<>();
-                messageList.add(message_01);
-                messageList.add(message_02);
-                message_01.compare(message_02);
+                messageList.add(messageOne);
+                messageList.add(messageTwo);
+                messageOne.compare(messageTwo);
                 service.save(messageList);
                 break;
 
@@ -88,11 +90,11 @@ public class ExceptionUtil {
                 // Case 4: we have two objects which have the same identifier (same primary key) and
                 // they are the same object, and we will try to save them at the same time (i.e. same session)
                 // RESULT: Case 4 does NOT throw NonUniqueObjectException.
-                message_01 = service.create(text_01);
+                messageOne = service.create(textOne);
                 messageList = new ArrayList<>();
-                messageList.add(message_01);
-                messageList.add(message_01);
-                message_01.compare(message_01);
+                messageList.add(messageOne);
+                messageList.add(messageOne);
+                messageOne.compare(messageOne);
                 service.save(messageList);
                 break;
 
@@ -102,14 +104,14 @@ public class ExceptionUtil {
                 // RESULT: Case 5 does NOT throw NonUniqueObjectException.
                 messageList = service.getAll();
                 if (messageList.size() > 1) {
-                    message_01 = messageList.get(1);
-                    id_01 = message_01.getId();
-                    message_02 = messageList.get(2);
-                    message_02.setId(id_01);
-                    message_01.compare(message_02);
+                    messageOne = messageList.get(1);
+                    idOne = messageOne.getId();
+                    messageTwo = messageList.get(2);
+                    messageTwo.setId(idOne);
+                    messageOne.compare(messageTwo);
                     service.save(messageList);
                 } else {
-                    System.out.println("\tCase 5: now able to run this case " +
+                    logger.debug("\tCase 5: now able to run this case " +
                             "because we need to retrieve at least two rows in the table.");
                 }
 
@@ -156,24 +158,24 @@ public class ExceptionUtil {
                 // should not) be aware of the managed instances already in the persistence context."
                 //
                 // RESULT: Case 6 throws NonUniqueObjectException.
-                message_01 = service.create(text_01);
+                messageOne = service.create(textOne);
 
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 session.beginTransaction();
-                message_02 = (Message) session.get(Message.class, message_01.getId());
+                messageTwo = (Message) session.get(Message.class, messageOne.getId());
 
-                message_01.compare(message_02);
-                message_02.setText(text_02);
-                message_01.compare(message_02);
+                messageOne.compare(messageTwo);
+                messageTwo.setText(textTwo);
+                messageOne.compare(messageTwo);
 
-                session.update(message_01); // Throws exception!
+                session.update(messageOne); // Throws exception!
                 session.getTransaction().commit();
                 session.close();
-                // The problem here is: message_01 was in detached hibernate state (its persistent
+                // The problem here is: messageOne was in detached hibernate state (its persistent
                 // hibernate state lasted only during the hibernate session that create it, which was
-                // closed at the end). Then we have message_02 that points to the same row in the table
-                // as message_01. The object message_02 is in persistent hibernate state. We change one
-                // field of message_02 and then we try to update message_01, and this sequence throws
+                // closed at the end). Then we have messageTwo that points to the same row in the table
+                // as messageOne. The object messageTwo is in persistent hibernate state. We change one
+                // field of messageTwo and then we try to update messageOne, and this sequence throws
                 // NonUniqueObjectException. If we have both object being kept in a Set, then we should
                 // always implement equals() for the class Message (which is part of the contract for
                 // using Java Collections). Otherwise, if we don't implement the equals() and then
@@ -185,27 +187,27 @@ public class ExceptionUtil {
             case 7:
                 // Case 7: similar to Case 6
                 // RESULT: Case 7 does NOT throw NonUniqueObjectException.
-                message_01 = service.create(text_01);
-                message_02 = service.get(message_01.getId());
-                message_01.compare(message_02);
-                message_02.setText(text_02);
-                message_01.compare(message_02);
-                service.update(message_01.getId(), text_03);
+                messageOne = service.create(textOne);
+                messageTwo = service.get(messageOne.getId());
+                messageOne.compare(messageTwo);
+                messageTwo.setText(textTwo);
+                messageOne.compare(messageTwo);
+                service.update(messageOne.getId(), textThree);
                 break;
 
             case 8:
                 // Case 8: similar to Case 6
                 // RESULT: Case 8 does NOT throw NonUniqueObjectException.
-                message_01 = service.create(text_01);
-                message_02 = service.get(message_01.getId());
-                message_01.compare(message_02);
-                message_02.setText(text_02);
-                message_01.compare(message_02);
-                service.update(message_02);
+                messageOne = service.create(textOne);
+                messageTwo = service.get(messageOne.getId());
+                messageOne.compare(messageTwo);
+                messageTwo.setText(textTwo);
+                messageOne.compare(messageTwo);
+                service.update(messageTwo);
                 break;
 
             default:
-                System.out.println("\tCase " + caseNumber + " was not implemented.");
+                logger.debug("\tCase " + caseNumber + " was not implemented.");
         }
     }
 }

@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class MathUtil {
 
-    public static Long getRandonLong(long min, long max) {
+    public static Long getRandomLong(long min, long max) {
         Random random = new Random();
         return min + ((long) (random.nextDouble() * (max - min)));
     }
