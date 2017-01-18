@@ -26,20 +26,20 @@ public class MessageApp {
         // Basic CRUD (create, retrieve, update, delete) operations:
 
         // create
-        Message message_01 = service.create(textOne);
-        Long id_01 = message_01.getId();
-        Message message_02 = service.create(textTwo);
-        Long id_02 = message_02.getId();
+        Message messageOne = service.create(textOne);
+        Long idOne = messageOne.getId();
+        Message messageTwo = service.create(textTwo);
+        Long idTwo = messageTwo.getId();
 
         // retrieve
-        Message message_03 = service.get(id_01);
-        logger.debug("Message retrieved: " + message_03);
+        Message messageThree = service.get(idOne);
+        logger.debug("Message retrieved: " + messageThree);
 
         // update
-        service.update(id_02, textThree);
+        service.update(idTwo, textThree);
 
         // delete
-        service.delete(id_01);
+        service.delete(idOne);
         service.deleteAll();
 
         // Get exception:

@@ -33,7 +33,7 @@ public class MessageDao {
         Message message = new Message(text);
         session.save(message);
         session.getTransaction().commit();
-        logger.debug("\n\tcreate(): " + message + "\n");
+        logger.debug(message.toString());
         session.close();
         return message;
     }
@@ -42,7 +42,7 @@ public class MessageDao {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         for (Message message : messageList) {
-            logger.debug("\n\tsave(): " + message + "\n");
+            logger.debug(message.toString());
             session.save(message);
         }
         session.getTransaction().commit();
@@ -55,9 +55,9 @@ public class MessageDao {
         try {
             txn.begin();
             Message message = (Message) session.get(Message.class, id);
-            logger.debug("\n\tupdate() - before change: " + message);
+            logger.debug(message.toString());
             message.setText(text);
-            logger.debug("\n\tupdate() - after change: " + message + "\n");
+            logger.debug(message.toString());
             txn.commit();
         } catch (Exception e) {
             if (txn != null) {
@@ -76,9 +76,7 @@ public class MessageDao {
         Transaction txn = session.getTransaction();
         try {
             txn.begin();
-            logger.debug("\n\tupdate() - before change: " + message);
             session.update(message);
-            logger.debug("\n\tupdate() - after change: " + message + "\n");
             txn.commit();
         } catch (Exception e) {
             if (txn != null) {
@@ -99,7 +97,7 @@ public class MessageDao {
             txn.begin();
             Message message = (Message) session.get(Message.class, id);
             if (message != null) {
-                logger.debug("\n\tdelete(): " + message + "\n");
+                logger.debug(message.toString());
                 session.delete(message);
             }
             txn.commit();
@@ -124,7 +122,7 @@ public class MessageDao {
             Message message;
             for (Object obj : listOfMessages) {
                 message = (Message) obj;
-                logger.debug("\n\tdeleteAll() - deleting message: " + message + "\n");
+                logger.debug(message.toString());
                 session.delete(obj);
             }
             txn.commit();
