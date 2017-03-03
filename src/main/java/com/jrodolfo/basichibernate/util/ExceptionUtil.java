@@ -79,6 +79,7 @@ public class ExceptionUtil {
                 // RESULT:  Case 3 does NOT throw NonUniqueObjectException.
                 messageOne = service.create(textOne);
                 messageTwo = service.get(messageOne.getId());
+                messageTwo.setText(textTwo);
                 messageList = new ArrayList<>();
                 messageList.add(messageOne);
                 messageList.add(messageTwo);
