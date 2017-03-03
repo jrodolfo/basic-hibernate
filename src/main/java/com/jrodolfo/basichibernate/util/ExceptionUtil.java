@@ -32,7 +32,7 @@ public class ExceptionUtil {
             try {
                 createNonUniqueObjectException(i);
             } catch (NonUniqueObjectException e) {
-                logger.debug("\n\n\t****** Failed on Case " + i + " ******\n\n");
+                logger.debug("\n\n\t****** Got NonUniqueObjectException on Case " + i + " ******\n\n");
                 e.printStackTrace();
             }
         }
@@ -50,7 +50,7 @@ public class ExceptionUtil {
         final Message messageTwo;
         final List<Message> messageList;
         final Long idOne;
-        logger.debug("\n\t====== Running Case " + caseNumber + " ======\n");
+        logger.debug("\n\n\t====== Running Case " + caseNumber + " ======\n");
 
         switch (caseNumber) {
 
@@ -61,7 +61,7 @@ public class ExceptionUtil {
                         "org.hibernate.NonUniqueObjectException exception.");
 
             case 2:
-                // Case 2: create two Message objects with the same id.
+                // Case 2: create two objects with the same id (same primary key).
                 // RESULT: Case 2 does NOT throw NonUniqueObjectException
                 final Long commonId = getRandomLong(1_000_000, 2_000_000);
                 messageOne = new Message(commonId, textOne);
@@ -74,8 +74,9 @@ public class ExceptionUtil {
                 break;
 
             case 3:
-                // Case 3: we have two objects which have the same identifier (same primary key) but
-                // they are NOT the same object, and we will try to save them at the same time (i.e. same session)
+                // Case 3: create two objects with the same id (same primary key) but
+                // they are NOT the same object, then try to save them at the same
+                // time (i.e. same session).
                 // RESULT:  Case 3 does NOT throw NonUniqueObjectException.
                 messageOne = service.create(textOne);
                 messageTwo = service.get(messageOne.getId());
@@ -88,8 +89,8 @@ public class ExceptionUtil {
                 break;
 
             case 4:
-                // Case 4: we have two objects which have the same identifier (same primary key) and
-                // they are the same object, and we will try to save them at the same time (i.e. same session)
+                // Case 4: create two objects with the same id (same primary key) and
+                // they are the same object, and then save them at the same time (i.e. same session).
                 // RESULT: Case 4 does NOT throw NonUniqueObjectException.
                 messageOne = service.create(textOne);
                 messageList = new ArrayList<>();
@@ -115,7 +116,6 @@ public class ExceptionUtil {
                     logger.debug("\tCase 5: now able to run this case " +
                             "because we need to retrieve at least two rows in the table.");
                 }
-
                 break;
 
             case 6:
@@ -160,15 +160,12 @@ public class ExceptionUtil {
                 //
                 // RESULT: Case 6 throws NonUniqueObjectException.
                 messageOne = service.create(textOne);
-
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 session.beginTransaction();
                 messageTwo = (Message) session.get(Message.class, messageOne.getId());
-
                 messageOne.compare(messageTwo);
                 messageTwo.setText(textTwo);
                 messageOne.compare(messageTwo);
-
                 session.update(messageOne); // Throws exception!
                 session.getTransaction().commit();
                 session.close();
