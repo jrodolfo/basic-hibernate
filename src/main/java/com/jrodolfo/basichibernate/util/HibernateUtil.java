@@ -1,9 +1,10 @@
 package com.jrodolfo.basichibernate.util;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,33 +19,22 @@ public class HibernateUtil {
     private final static SessionFactory sessionFactory = buildSessionFactory();
     private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    // hibernate 4
     private static SessionFactory buildSessionFactory() {
-        // import org.hibernate.boot.registry.StandardServiceRegistry;
-        // import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
         try {
-            Configuration config = new Configuration().configure("hibernate.cfg.xml");
-            StandardServiceRegistry standardServiceRegistry = new StandardServiceRegistryBuilder()
-                    .applySettings(config.getProperties())
-                    .build();
-            return config.buildSessionFactory(standardServiceRegistry);
-        }
-        catch (Throwable e) {
-            System.err.println("SessionFactory creation failed: " + e);
+            StandardServiceRegistry standardRegistry =
+                    new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+            Metadata metaData =
+                    new MetadataSources(standardRegistry).getMetadataBuilder().build();
+            return metaData.getSessionFactoryBuilder().build();
+        } catch (Throwable e) {
+            if (logger != null) {
+                logger.error("SessionFactory creation failed: " + e);
+            } else {
+                System.err.println("SessionFactory creation failed: " + e);
+            }
             throw new ExceptionInInitializerError(e);
         }
     }
-
-    // hibernate 3
-//    private static SessionFactory buildSessionFactory() {
-//
-//        try {
-//            return new Configuration().configure().buildSessionFactory();
-//        } catch (Throwable e) {
-//            System.err.println("SessionFactory creation failed: " + e);
-//            throw new ExceptionInInitializerError(e);
-//        }
-//    }
 
     public static SessionFactory getSessionFactory() {
         return sessionFactory;

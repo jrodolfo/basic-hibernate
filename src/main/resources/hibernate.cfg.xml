@@ -5,6 +5,7 @@
 <!-- Created by Rod Oliveira (jrodolfo.com) on 2017-01-05 -->
 <hibernate-configuration>
     <session-factory>
+        <property name="hibernate.id.new_generator_mappings">false</property>
         <!-- database settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.url">jdbc:mysql://localhost:3306/basic_hibernate</property>
